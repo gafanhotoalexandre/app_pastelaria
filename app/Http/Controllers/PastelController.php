@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PastelController extends Controller
 {
+
+    public function __construct(Pastel $pastel)
+    {
+        $this->pastel = $pastel;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +19,9 @@ class PastelController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $pasteis = $this->pastel->all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($pasteis, 200);
     }
 
     /**
@@ -35,51 +32,92 @@ class PastelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            $this->pastel->rules(), $this->pastel->feedback()
+        );
+
+        $pastel = $this->pastel->create($request->all());
+        return response()->json($pastel, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pastel  $pastel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Pastel $pastel)
+    public function show(int $id)
     {
-        //
-    }
+        $pastel = $this->pastel->find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pastel  $pastel
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pastel $pastel)
-    {
-        //
+        if ($pastel === null) {
+            return response()->json([
+                'erro' => 'Recurso pesquisado nao existe'
+            ], 404);
+        }
+
+        return response()->json($pastel, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pastel  $pastel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pastel $pastel)
+    public function update(Request $request, int $id)
     {
-        //
+        $pastel = $this->pastel->find($id);
+
+        if ($pastel === null) {
+            return response()->json([
+                'erro' => 'Impossivel realizar atualizacao. O recurso solicitado nao existe.'
+            ], 404);
+        }
+
+        if ($request->method() === 'PATCH') {
+
+            $regrasDinamicas = [];
+
+            foreach ($pastel->rules() as $input => $rule) {
+                if (array_key_exists($input, $request->all())) {
+                    $regrasDinamicas[$input] = $rule;
+                }
+            }
+
+            $request->validate(
+                $regrasDinamicas, $pastel->feedback()
+            );
+        } else { // seguir pelo método PUT
+            $request->validate(
+                $pastel->rules(), $pastel->feedback()
+            );    
+        }
+
+        $pastel->update($request->all());
+        return response()->json($pastel, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pastel  $pastel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pastel $pastel)
+    public function destroy(int $id)
     {
-        //
+        $pastel = $this->pastel->find($id);
+
+        if ($pastel === null) {
+            return response()->json([
+                'erro' => 'Impossivel realizar exclusao. O recurso solicitado nao existe.'
+            ], 404);
+        }
+
+        $pastel->delete();
+        return response()->json([
+            'msg' => 'O registro de pastel foi deletado com sucesso.'
+        ], 200);
     }
 }

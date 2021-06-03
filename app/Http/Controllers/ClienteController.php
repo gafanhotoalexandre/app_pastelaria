@@ -19,7 +19,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = $this->cliente::all();
+        $clientes = $this->cliente->all();
 
         return response()->json($clientes, 200);
     }
@@ -77,9 +77,24 @@ class ClienteController extends Controller
             ], 404);
         }
 
-        $request->validate(
-            $cliente->rules(), $cliente->feedback()
-        );
+        if ($request->method() === 'PATCH') {
+
+            $regrasDinamicas = [];
+
+            foreach ($cliente->rules() as $input => $rule) {
+                if (array_key_exists($input, $request->all())) {
+                    $regrasDinamicas[$input] = $rule;
+                }
+            }
+
+            $request->validate(
+                $regrasDinamicas, $cliente->feedback()
+            );    
+        } else { // seguir com método PUT
+            $request->validate(
+                $cliente->rules(), $cliente->feedback()
+            );    
+        }
 
         $cliente->update($request->all());
         return response()->json($cliente, 200);
