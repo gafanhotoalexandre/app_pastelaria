@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class PedidoController extends Controller
 {
+    public function __construct(Pedido $pedido)
+    {
+        $this->pedido = $pedido;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +18,9 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $pedidos = $this->pedido->all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($pedidos, 200);
     }
 
     /**
@@ -35,51 +31,93 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            $this->pedido->rules(), $this->pedido->feedback()
+        );
+
+        $pedido = $this->pedido->create($request->all());
+
+        return response()->json($pedido, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pedido  $pedido
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Pedido $pedido)
+    public function show(int $id)
     {
-        //
-    }
+        $pedido = $this->pedido->find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pedido $pedido)
-    {
-        //
+        if ($pedido === null) {
+            return response()->json([
+                'erro' => 'Recurso pesquisado nao existe.'
+            ], 404);
+        }
+
+        return response()->json($pedido, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pedido  $pedido
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pedido $pedido)
+    public function update(Request $request, int $id)
     {
-        //
+        $pedido = $this->pedido->find($id);
+
+        if ($pedido === null) {
+            return response()->json([
+                'erro' => 'Impossivel realizar atualizacao. O recurso solicitado nao existe.'
+            ], 404);
+        }
+
+        if ($request->method() === 'PATCH') {
+
+            $regrasDinamicas = [];
+
+            foreach ($pedido->rules() as $input => $rule) {
+                if (array_key_exists($input, $request->all())) {
+                    $regrasDinamicas[$input] = $rule;
+                }
+            }
+
+            $request->validate(
+                $regrasDinamicas, $pedido->feedback()
+            );    
+        } else { // seguir pelo método PUT
+            $request->validate(
+                $pedido->rules(), $pedido->feedback()
+            );    
+        }
+
+        $pedido->update($request->all());
+        return response()->json($pedido, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pedido  $pedido
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pedido $pedido)
+    public function destroy(int $id)
     {
-        //
+        $pedido = $this->pedido->find($id);
+
+        if ($pedido === null) {
+            return response()->json([
+                'erro' => 'Impossivel realizar exclusao. O recurso solicitado nao existe.'
+            ], 404);
+        }
+
+        $pedido->delete();
+        return response()->json([
+            'msg' => 'O registro o pedido foi deletado com sucesso.'
+        ], 200);
     }
 }
