@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pastel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PastelController extends Controller
 {
@@ -36,7 +37,15 @@ class PastelController extends Controller
             $this->pastel->rules(), $this->pastel->feedback()
         );
 
-        $pastel = $this->pastel->create($request->all());
+        $foto = $request->file('foto');
+        $urn_foto = $foto->store('imagens', 'public');
+
+        $pastel = $this->pastel->create([
+            'nome' => $request->nome,
+            'preco' => $request->preco,
+            'foto' => $urn_foto,
+        ]);
+
         return response()->json($pastel, 201);
     }
 
@@ -95,7 +104,19 @@ class PastelController extends Controller
             );    
         }
 
-        $pastel->update($request->all());
+        if ($request->file('foto')) {
+            // removendo antigo arquivo caso um novo seja encaminhado pelo request
+            Storage::disk('public')->delete($pastel->foto);
+
+            // inserindo nova imagem
+            $foto = $request->file('foto');
+            $urn_foto = $foto->store('imagens', 'public');    
+        }
+
+        $pastel->fill($request->all());
+        $pastel->foto = $urn_foto ?? $pastel->foto;
+        $pastel->save();
+
         return response()->json($pastel, 200);
     }
 
@@ -114,6 +135,9 @@ class PastelController extends Controller
                 'erro' => 'Impossivel realizar exclusao. O recurso solicitado nao existe.'
             ], 404);
         }
+
+        // removendo arquivo
+        Storage::disk('public')->delete($pastel->foto);
 
         $pastel->delete();
         return response()->json([

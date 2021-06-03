@@ -20,13 +20,15 @@ class Pastel extends Model
         return [
             'nome' => 'required',
             'preco' => 'required',
-            'foto' => 'required',
+            'foto' => 'required|file|mimes:png',
         ];
     }
     public function feedback()
     {
         return [
-            'required' => 'O campo :attribute deve ser preenchido.'
+            'required' => 'O campo :attribute deve ser preenchido.',
+
+            'foto.mimes' => 'A imagem deve ser do tipo PNG.',
         ];
     }
 }
