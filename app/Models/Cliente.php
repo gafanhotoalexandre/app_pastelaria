@@ -42,4 +42,9 @@ class Cliente extends Model
             'email.unique' => 'O e-mail informado já foi cadastrado.',
         ];
     }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
 }

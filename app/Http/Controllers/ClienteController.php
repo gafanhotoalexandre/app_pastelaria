@@ -19,7 +19,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = $this->cliente->all();
+        $clientes = $this->cliente->with('pedidos')->get();
 
         return response()->json($clientes, 200);
     }
@@ -49,7 +49,7 @@ class ClienteController extends Controller
      */
     public function show(int $id)
     {
-        $cliente = $this->cliente->find($id);
+        $cliente = $this->cliente->with('pedidos')->find($id);
 
         if ($cliente === null) {
             return response()->json([
