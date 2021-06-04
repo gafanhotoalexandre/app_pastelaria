@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NovoPedidoMail;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PedidoController extends Controller
 {
@@ -36,6 +38,12 @@ class PedidoController extends Controller
         );
 
         $pedido = $this->pedido->create($request->all());
+
+        $pastel = $pedido->pasteis->pluck('nome')->all();
+        $pastel = $pastel[0];
+        
+        $destinatario = $pedido->cliente->email;
+        Mail::to($destinatario)->send(new NovoPedidoMail($pedido, $pastel));
 
         return response()->json($pedido, 201);
     }
