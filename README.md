@@ -4,6 +4,7 @@ Esta api trabalha com informações de **Cliente**, **Pastel** e **Pedido**, e s
 
 ### Informações Úteis
 Todas as tabelas utilizando o recurso de SoftDeletes, para preservar os dados mesmo quando deletados.
+
 O projeto trabalha com timezone America/Sao_Paulo.
 
 ## Para instalar
