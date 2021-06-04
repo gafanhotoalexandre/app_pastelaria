@@ -20,7 +20,7 @@ class CreatePasteisTable extends Migration
             $table->string('foto');
             $table->timestamps();
 
-            // $table->softDeletes();
+            $table->softDeletes();
         });
     }
 

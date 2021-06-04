@@ -19,7 +19,7 @@ class CreatePedidosTable extends Migration
             $table->unsignedBigInteger('pastel_id');
             $table->timestamps();
             
-            // $table->softDeletes();
+            $table->softDeletes();
 
             // (constraints)
             $table->foreign('cliente_id')->references('id')->on('clientes');

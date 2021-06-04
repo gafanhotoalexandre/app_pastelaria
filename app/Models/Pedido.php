@@ -10,7 +10,8 @@ class Pedido extends Model
 {
     use HasFactory;
 
-    // use SoftDeletes;
+    use SoftDeletes;
+    
     protected $fillable = ['cliente_id', 'pastel_id'];
 
     public function rules()

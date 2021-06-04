@@ -25,7 +25,7 @@ class CreateClientesTable extends Migration
             $table->string('cep');
             $table->timestamps();
 
-            // $table->softDeletes();
+            $table->softDeletes();
         });
     }
 

@@ -1,6 +1,10 @@
-# Projeto API para Pastelaria
+# Projeto API Restful para Pastelaria
 
 Esta api trabalha com informações de **Cliente**, **Pastel** e **Pedido**, e seus devidos relacionamentos.
+
+### Informações Úteis
+Todas as tabelas utilizando o recurso de SoftDeletes, para preservar os dados mesmo quando deletados.
+O projeto trabalha com timezone America/Sao_Paulo.
 
 ## Para instalar
 

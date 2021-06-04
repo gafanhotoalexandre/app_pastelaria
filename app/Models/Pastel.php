@@ -10,7 +10,7 @@ class Pastel extends Model
 {
     use HasFactory;
 
-    // use SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'pasteis';
     protected $fillable = ['nome', 'preco', 'foto'];
