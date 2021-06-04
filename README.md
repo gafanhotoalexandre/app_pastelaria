@@ -17,16 +17,16 @@ Após realizar o clone do repositório:
 - Copie o arquivo env.example para .env e crie uma chave para a aplicação com ```php artisan key:generate```;
 - Configure um e-mail que será o remetente das notifications enviadas;
 
-Ex com serviço gmail:
+Preencher estes campos do .env com seus dados:
 ```
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=email@gmail.com
-MAIL_PASSWORD=senha_do_email
-MAIL_ENCRYPTION=TLS
-MAIL_FROM_ADDRESS="${MAIL_USERNAME}"
-MAIL_FROM_NAME="${APP_NAME}"
+MAIL_MAILER=
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=
+MAIL_FROM_ADDRESS=
+MAIL_FROM_NAME=
 ```
 
 OBS: substitua os campos "email@gmail.com" e "senha_do_email" pelos seus dados de e-mail.
