@@ -13,6 +13,7 @@ Após realizar o clone do repositório:
 - Instale as dependências do Composer;
 - Copie o arquivo env.example para .env e crie uma chave para a aplicação com ```php artisan key:generate```;
 - Configure um e-mail que será o remetente das notifications enviadas;
+
 Ex com serviço gmail:
 ```
 MAIL_MAILER=smtp
@@ -24,6 +25,8 @@ MAIL_ENCRYPTION=TLS
 MAIL_FROM_ADDRESS="${MAIL_USERNAME}"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
+
+OBS: substitua os campos "email@gmail.com" e "senha_do_email" pelos seus dados de e-mail.
 
 Ao configurar os parâmetros do arquivo .env, rode as migrations e as seeders com ```php artisan migrate --seed```
 
