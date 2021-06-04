@@ -3,11 +3,16 @@
 Esta api trabalha com informações de **Cliente**, **Pastel** e **Pedido**, e seus devidos relacionamentos.
 
 ### Informações Úteis
+Esta é uma API Restful, logo, trabalha com os métodos GET | POST | PUT/PATCH | DELETE.
+
 Todas as tabelas utilizando o recurso de SoftDeletes, para preservar os dados mesmo quando deletados.
 
 A aplicação que consumirá a API deve ter implementado em seus Headers o ```Accept application/json```, para indicar que sabe lidar com retorno json (devido às validações realizadas pela API Restful)
 
 O projeto trabalha com timezone America/Sao_Paulo.
+
+### Requisitos
+```PHP >= 7.3```
 
 ## Para instalar
 
