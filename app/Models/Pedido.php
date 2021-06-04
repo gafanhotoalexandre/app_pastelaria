@@ -27,4 +27,14 @@ class Pedido extends Model
             'exists' => 'O :attribute selecionado é inválido.',
         ];
     }
+
+    public function cliente()
+    {
+        // um pedido pertence a um cliente
+        return $this->belongsTo(Cliente::class);
+    }
+    public function pasteis()
+    {
+        return $this->hasMany(Pastel::class, 'id', 'pastel_id');
+    }
 }

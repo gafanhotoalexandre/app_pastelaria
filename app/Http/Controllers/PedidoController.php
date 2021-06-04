@@ -18,7 +18,7 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        $pedidos = $this->pedido->all();
+        $pedidos = $this->pedido->with(['cliente', 'pasteis'])->get();
 
         return response()->json($pedidos, 200);
     }
@@ -48,7 +48,7 @@ class PedidoController extends Controller
      */
     public function show(int $id)
     {
-        $pedido = $this->pedido->find($id);
+        $pedido = $this->pedido->with(['cliente', 'pasteis'])->find($id);
 
         if ($pedido === null) {
             return response()->json([
