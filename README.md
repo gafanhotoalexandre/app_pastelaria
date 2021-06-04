@@ -1,4 +1,39 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Projeto API para Pastelaria
+
+Esta api trabalha com informações de **Cliente**, **Pastel** e **Pedido**, e seus devidos relacionamentos.
+
+## Para instalar
+
+Após realizar o clone do repositório:
+
+- Instale as dependências do Composer;
+- Copie o arquivo env.example para .env e crie uma chave para a aplicação com ```php artisan key:generate```;
+- Configure um e-mail que será o remetente das notifications enviadas;
+Ex com serviço gmail:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=email@gmail.com
+MAIL_PASSWORD=senha_do_email
+MAIL_ENCRYPTION=TLS
+MAIL_FROM_ADDRESS="${MAIL_USERNAME}"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+Ao configurar os parâmetros do arquivo .env, rode as migrations e as seeders com ```php artisan migrate --seed```
+
+## Utilização
+
+A o banco de dados da API possui três tabelas já definidas nas migrations: Cliente, Pastel e Pedido.
+
+- Cliente: id, nome, email, telefone, data de nascimento, endereço, complemento, bairro, cep, data de cadastro, created_at e updated_at;
+- Pastel: id, nome, preco, foto, created_at e updated_at;
+- Pedido: cliente_id, pastel_id, created_at e updated_at;
+
+O primeiro passo para utilização é criar um link do diretório storage para o diretório public da aplicação com o comando ```php artisan storage:link```. Dessa forma as imagens estarão disponíveis na internet quando o deploy for realizado.
+
+<!-- <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
@@ -59,4 +94,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). -->
