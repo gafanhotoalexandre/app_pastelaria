@@ -29,7 +29,7 @@ MAIL_FROM_ADDRESS=
 MAIL_FROM_NAME=
 ```
 
-OBS: substitua os campos "email@gmail.com" e "senha_do_email" pelos seus dados de e-mail.
+OBS: substitua os campos pelos seus dados de e-mail.
 
 Ao configurar os parâmetros do arquivo .env, rode as migrations e as seeders com ```php artisan migrate --seed```
 
