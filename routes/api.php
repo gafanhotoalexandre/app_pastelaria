@@ -26,9 +26,13 @@ Route::get('/', function () {
     return ['Chegamos ate aqui' => 'SIM'];
 });
 
-Route::apiResource('cliente', ClienteController::class);
-Route::apiResource('pastel', PastelController::class);
-Route::apiResource('pedido', PedidoController::class);
+Route::prefix('v1')->middleware('jwt.auth')->group(function () {
+
+    Route::apiResource('cliente', ClienteController::class);
+    Route::apiResource('pastel', PastelController::class);
+    Route::apiResource('pedido', PedidoController::class);  
+      
+});
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
