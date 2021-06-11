@@ -31,10 +31,10 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function () {
     Route::apiResource('cliente', ClienteController::class);
     Route::apiResource('pastel', PastelController::class);
     Route::apiResource('pedido', PedidoController::class);  
-      
+    
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
 });
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
-Route::post('refresh', [AuthController::class, 'refresh']);
-Route::post('me', [AuthController::class, 'me']);

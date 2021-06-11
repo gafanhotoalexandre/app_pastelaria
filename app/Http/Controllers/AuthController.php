@@ -8,6 +8,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        // (usuário e senha)
         $credenciais = $request->only(['email', 'password']);
 
         // autenticação (usuário e senha)
@@ -28,11 +29,13 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        return 'refresh';
+        $token = auth('api')->refresh();
+
+        return response()->json(['token' => $token]);
     }
 
     public function me()
     {
-        return 'me';
+        return response()->json(auth()->user(), 200);
     }
 }
